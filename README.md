@@ -1,4 +1,4 @@
-📘 Login Auth Node.js (JWT + CSRF + MongoDB + React)
+## Login Auth Node.js (JWT + CSRF + MongoDB + React)
 
 This project is a full-stack authentication system with:
 
@@ -52,55 +52,69 @@ LOGIN_AUTH_NODEJS/
 
 
 
-🚀 Backend Setup
+##  Backend Setup
+
 1. Install dependencies
+   
 cd backend
+
 npm install
 
-2. Configure environment
+3. Configure environment
 
 Create a .env file in /backend:
 
 PORT=4000
+
 MONGO_URI=mongodb+srv://salonikansal789:1234@cluster0.rkawwf3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
 JWT_SECRET=JXt57Ve8y
+
 JWT_EXPIRES_IN=3600
+
 COOKIE_NAME=auth_token
+
 CSRF_COOKIE_NAME=_csrf
+
 NODE_ENV=development
 
 5. Run backend
-   npm run build
-    npm start
 
-Backend API will be run at:
+   npm run build
+   npm start
+
+## Backend API will be run at:
 
 http://localhost:4000/api/user
 
 
 4. Seeded test users
 
-Automatically created on startup:
+## Automatically created on startup:
 
-alice@example.com
- / password123
+=> alice@example.com
+  password123
 
-bob@example.com
- / secret321
+=> bob@example.com
+  secret321
 
 
 🎨 Frontend Setup
 1. Install dependencies
-   cd frontend
-    npm install
 
-2. Run frontend
+   cd frontend
+   npm install
+
+3. Run frontend
+
    npm run dev
+   
 3.Frontend run at:
+
 http://localhost:5173
 
 
-🔗 How it Works
+## How it Works
 
 1. CSRF Token
 
