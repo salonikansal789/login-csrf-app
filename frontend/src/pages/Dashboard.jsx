@@ -1,0 +1,49 @@
+import { useState } from 'react';
+import { whoami, logout } from '../api/api.js';
+import { toast } from 'react-toastify';
+
+function Dashboard({ user, setUser }) {
+    const [whoamiData, setWhoamiData] = useState(null);
+  const handleWhoami = async () => {
+    const me = await whoami();
+    
+    if (me.user) {
+      toast.success('get data successful');
+      setUser(me.user);
+      setWhoamiData(me); 
+    }
+    if (me.error) 
+      {
+        toast.error(me.error);
+      }
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    setUser(null);
+    toast.success('Logged out successfully');
+  };
+
+  return (
+    <div className="container">
+      <h2>Dashboard</h2>
+      <p>
+        Logged in as: <strong>{user?.name}</strong> ({user?.email})
+      </p>
+      <button onClick={handleWhoami}>Who Am I</button>
+      {whoamiUser && (
+        <div style={{ marginTop: '1rem', padding: '1rem', border: '1px solid #ccc' }}>
+          <h3>User Details</h3>
+          <p><strong>ID:</strong> {whoamiUser._id}</p>
+          <p><strong>Name:</strong> {whoamiUser.name || '(no name)'}</p>
+          <p><strong>Email:</strong> {whoamiUser.email}</p>
+        </div>
+      )}
+      <button onClick={handleLogout} className="secondary">
+        Logout
+      </button>
+    </div>
+  );
+}
+
+export default Dashboard;
