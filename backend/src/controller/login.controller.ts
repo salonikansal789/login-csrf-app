@@ -18,7 +18,8 @@ export default class LoginController extends ResponseService {
       )
 
       const isProd = process.env.NODE_ENV === 'production'
-      res.cookie('authToken', data.token, {
+
+      res.cookie('authToken', data, {
         httpOnly: true,
         secure: isProd,
         sameSite: 'lax',

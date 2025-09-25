@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { whoami, login } from '../api/api.js';
+import { whoami, login ,getCsrfToken} from '../api/api.js';
 import { toast } from 'react-toastify';
-function Login({ setUser }) {
+function Login({ setUser,setWhoamIError }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({ email: '', password: '' });
@@ -10,7 +10,6 @@ function Login({ setUser }) {
     let valid = true;
     const newErrors = { email: '', password: '' };
 
-    // Email validation
     if (!email.trim()) {
       newErrors.email = 'Email is required';
       valid = false;
@@ -19,7 +18,6 @@ function Login({ setUser }) {
       valid = false;
     }
 
-    // Password validation
     if (!password.trim()) {
       newErrors.password = 'Password is required';
       valid = false;
@@ -35,16 +33,35 @@ function Login({ setUser }) {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    debugger;
     if (!validate()) return; 
-
+  try{
     const result = await login(email, password);
+    
     if (result.success) {
-      toast.success('Login successful');
-      const me = await whoami();
-      setUser(me.user);
+      toast.success('Login successful and fetching user data...');
+      const csrfToken= await getCsrfToken();
+      debugger;
+      if(!csrfToken){
+        toast.error('CSRF token not found. Please try again.');
+        return;
+      }
+      
+      const whoamiData = await whoami(csrfToken);
+      if(whoamiData.success){
+      setUser(whoamiData.data.user);
+      }
+      else{
+        setWhoamIError(whoamiData.message || 'Failed to fetch user data');
+        toast.error( 'Failed to fetch user data by using whoami');
+      }
     } else {
-      toast.error(result.error || 'Login failed')
+      toast.error(result.message || 'Login failed')
     }
+  } catch (error) {
+    toast.error('Login failed. Please try again.');
+  }
+
   };
 
   return (

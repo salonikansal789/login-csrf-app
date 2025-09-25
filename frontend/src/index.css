@@ -14,7 +14,7 @@ form{
     padding: 30px;
 }
 
-h2 ,h1{
+h2 ,h1,h3{
   text-align: center;
   margin-bottom: 20px;
   color: #333;
@@ -55,9 +55,6 @@ button {
   transition: background 0.2s;
 }
 
-button:hover {
-  background: #357ab7;
-}
 
 button.secondary {
   background: #f44336;
@@ -76,4 +73,10 @@ p {
   font-size: 0.9em;
   margin-top: -10px;
   margin-bottom: 10px;
+}
+
+.Toastify__close-button {
+
+display: none;
+
 }

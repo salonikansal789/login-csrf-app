@@ -16,7 +16,7 @@ export function requireAuth(req: AuthRequest, res: Response, next: NextFunction)
        res.status(401).json({ error: 'Unauthorized: missing token' });
        return;
     }
-    const payload = jwt.verify(token, JWT_SECRET) as any;
+    const payload = jwt.verify(token.data, JWT_SECRET) as any;
     req.user = { id: payload.id, email: payload.email, name: payload.name };
     next();
   } catch (err) {
