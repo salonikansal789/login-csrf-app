@@ -84,8 +84,7 @@ NODE_ENV=development
 
 4. Run backend
 
-   - npm run build
-   - npm start
+   - npm run dev
 
 ## Backend API will be run at:
 
