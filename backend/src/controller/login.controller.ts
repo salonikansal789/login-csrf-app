@@ -1,57 +1,76 @@
 import { NextFunction, Request, Response } from 'express'
-import LoginService from '../services/login.service';
-import config from '../config/default';
-import { UserModel } from '../models/user.model';
-export default class LoginController {
+import LoginService from '../services/login.service'
+import config from '../config/default'
+import { UserModel } from '../models/user.model'
+import ResponseService from '../services/response.service'
+import { BadRequestError } from '../errors/badRequestError'
 
-  private loginService = new LoginService();
+export default class LoginController extends ResponseService {
+  private loginService = new LoginService()
 
-  login = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  login = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { email, password } = req.body;
-      const token = await this.loginService.login(email, password);
+      const { email, password } = req.body
 
-      const isProd = process.env.NODE_ENV === 'production';
-      res.cookie('authToken', token, {
+      const { data, message, statusCode } = await this.loginService.login(
+        email,
+        password
+      )
+
+      const isProd = process.env.NODE_ENV === 'production'
+      res.cookie('authToken', data.token, {
         httpOnly: true,
         secure: isProd,
         sameSite: 'lax',
-        maxAge: 1000 * 60 * 60 * 24 * 7
-      });
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+      })
 
-      return res.json({ success: true,token:token });
-    } catch (err: any) {
-      return res.status(err.status || 500).json({ error: err.message || 'Server error' });
+      this.sendResponse(res, statusCode, data, message)
+    } catch (error) {
+      next(error)
     }
   }
 
-  csrfToken = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    if (typeof req.csrfToken !== 'function') {
-      return res.status(500).json({ error: 'CSRF middleware not set up' });
-    }
-    return res.json({ csrfToken: req.csrfToken() });
-  }
-
-  whoami = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  csrfToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await UserModel.findById(req.user.id).select('-passwordHash').lean();
-      if (!user) return res.status(404).json({ error: 'User not found' });
+      if (typeof req.csrfToken !== 'function') {
+        throw new BadRequestError('CSRF middleware not set up')
+      }
 
-      return res.json({ user });
-    } catch (err) {
-      next(err);
-      return res.status(500).json({ error: 'Server error' });
+      const csrfToken = req.csrfToken()
+
+      this.sendResponse(
+        res,
+        200,
+        { csrfToken },
+        'CSRF token fetched successfully'
+      )
+    } catch (error) {
+      next(error)
     }
   }
 
-  logout = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  whoami = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { data, message, statusCode } = await this.loginService.whoami(
+        req.user.id
+      )
+      this.sendResponse(res, statusCode, data, message)
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  logout = async (req: Request, res: Response, next: NextFunction) => {
     res.clearCookie('authToken', {
       httpOnly: true,
       sameSite: config.nodeEnv === 'production' ? 'none' : 'lax',
-      secure: config.nodeEnv === 'production' ? true : false
-    });
-    return res.json({ success: true });
+      secure: config.nodeEnv === 'production',
+    })
+
+    this.sendResponse(res, 200, {}, 'Logout successfully')
   }
+}
 
-
-} 
+const loginController = new LoginController()
+export { loginController }

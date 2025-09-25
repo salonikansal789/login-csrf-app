@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { Routes } from "../interface/routes.interface";
-import LoginController from "../controller/login.controller";
+import LoginController, { loginController } from "../controller/login.controller";
 import { requireAuth } from "../middleware/auth.middleware";
 
 class LoginRoute implements Routes {
   public path = '/user'
   public router = Router()
-  public loginController = new LoginController()
+  public loginController = loginController
 
    constructor() {
     this.initializeRoutes()
@@ -17,12 +17,13 @@ class LoginRoute implements Routes {
     this.loginController.login
     )
 
-    this.router.get(`${this.path}/csrf-token`,
+    this.router.get(
+      `${this.path}/csrf-token`,
        this.loginController.csrfToken 
     )
 
     this.router.get(`${this.path}/whoami`,
-        requireAuth,
+      requireAuth,
        this.loginController.whoami 
     )
 

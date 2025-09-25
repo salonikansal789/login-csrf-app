@@ -6,6 +6,7 @@ import { Routes } from './interface/routes.interface'
 import dbConnection from './utils/mongo'
 import csurf from 'csurf';
 import morgan from 'morgan'
+import errorHandler from './middleware/error.middleware'
 
 const csrfProtection = csurf({
   cookie: {
@@ -20,13 +21,14 @@ class App {
   public port: string | number
 
   constructor(routes: Routes[]) {
-    this.app = express()
+    this.app = express() 
     this.port = config.port
 
     this.connectToDatabase()
     this.initializeMiddlewares()
     this.initializeRoutes(routes)
-    this.initializeErrorHandling();
+    this.initializeCSRFErrorHandling();
+    this.initializeErrorHandling()
 
   }
 
@@ -68,11 +70,16 @@ class App {
     })
   }
 
-   private initializeErrorHandling() {
+    private initializeErrorHandling() {
+      this.app.use(errorHandler)
+  }
+
+   private initializeCSRFErrorHandling() {
     this.app.use(
       (err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
         if (err && err.code === 'EBADCSRFTOKEN') {
-          return res.status(403).json({ error: 'Invalid CSRF token' });
+           res.status(403).json({ error: 'Invalid CSRF token' });
+           return ;
         }
         next(err);
       }

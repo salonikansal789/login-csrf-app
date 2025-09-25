@@ -13,12 +13,14 @@ export function requireAuth(req: AuthRequest, res: Response, next: NextFunction)
   try {
     const token = req.cookies?.authToken;
     if (!token) {
-      return res.status(401).json({ error: 'Unauthorized: missing token' });
+       res.status(401).json({ error: 'Unauthorized: missing token' });
+       return;
     }
     const payload = jwt.verify(token, JWT_SECRET) as any;
     req.user = { id: payload.id, email: payload.email, name: payload.name };
     next();
   } catch (err) {
-    return res.status(401).json({ error: 'Unauthorized: invalid token' });
+     res.status(401).json({ error: 'Unauthorized: invalid token' });
+     return;
   }
 }
