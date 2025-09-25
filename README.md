@@ -30,6 +30,7 @@ LOGIN_AUTH_NODEJS/
 │   │   ├── models/          # Mongoose models
 │   │   ├── routes/          # API routes
 │   │   ├── services/        # Business logic
+│   │   ├── errors/          # Errors
 │   │   ├── types/           # Type definitions
 │   │   ├── utils/           # Helpers (db connection etc.)
 │   │   ├── app.ts           # Express app setup
@@ -60,7 +61,7 @@ cd backend
 
 npm install
 
-3. Configure environment
+2.. Configure environment
 
 Create a .env file in /backend:
 
@@ -78,10 +79,10 @@ CSRF_COOKIE_NAME=_csrf
 
 NODE_ENV=development
 
-## then install globally nodemon before run npm run dev for backend
+3. then install globally nodemon before run npm run dev for backend
 npm i -g nodemon
 
-5. Run backend
+4. Run backend
 
    npm run build
    npm start
@@ -91,7 +92,7 @@ npm i -g nodemon
 http://localhost:4000/api/user
 
 
-4. Seeded test users
+5. Seeded test users
 
 ## Automatically created on startup:
 
@@ -108,7 +109,7 @@ http://localhost:4000/api/user
    cd frontend
    npm install
 
-3. Run frontend
+2. Run frontend
 
    npm run dev
    
