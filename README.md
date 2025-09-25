@@ -78,6 +78,9 @@ CSRF_COOKIE_NAME=_csrf
 
 NODE_ENV=development
 
+## then install globally nodemon before run npm run dev for backend
+npm i -g nodemon
+
 5. Run backend
 
    npm run build
