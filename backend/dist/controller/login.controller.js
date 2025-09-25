@@ -20,7 +20,7 @@ class LoginController {
                     sameSite: 'lax',
                     maxAge: 1000 * 60 * 60 * 24 * 7
                 });
-                return res.json({ success: true });
+                return res.json({ success: true, token: token });
             }
             catch (err) {
                 return res.status(err.status || 500).json({ error: err.message || 'Server error' });

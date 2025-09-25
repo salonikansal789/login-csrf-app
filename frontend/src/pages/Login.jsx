@@ -38,7 +38,6 @@ function Login({ setUser }) {
     if (!validate()) return; 
 
     const result = await login(email, password);
-       debugger;
     if (result.success) {
       toast.success('Login successful');
       const me = await whoami();

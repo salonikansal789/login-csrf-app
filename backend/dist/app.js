@@ -9,6 +9,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
 const mongo_1 = __importDefault(require("./utils/mongo"));
 const csurf_1 = __importDefault(require("csurf"));
+const morgan_1 = __importDefault(require("morgan"));
 const csrfProtection = (0, csurf_1.default)({
     cookie: {
         httpOnly: true,
@@ -51,6 +52,7 @@ class App {
                 return next();
             return csrfProtection(req, res, next);
         });
+        this.app.use((0, morgan_1.default)('dev'));
     }
     initializeRoutes(routes) {
         routes.forEach(route => {

@@ -21,7 +21,7 @@ class LoginService {
                 err.status = 401;
                 throw err;
             }
-            const match = await bcrypt_1.default.compare(password, user.passwordHash);
+            const match = await bcrypt_1.default.compare(password, user.password);
             if (!match) {
                 const err = new Error('Invalid credentials');
                 err.status = 401;

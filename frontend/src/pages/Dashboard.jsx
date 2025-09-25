@@ -26,17 +26,15 @@ function Dashboard({ user, setUser }) {
 
   return (
     <div className="container">
-      <h2>Dashboard</h2>
-      <p>
-        Logged in as: <strong>{user?.name}</strong> ({user?.email})
-      </p>
-      <button onClick={handleWhoami}>Who Am I</button>
-      {whoamiUser && (
-        <div style={{ marginTop: '1rem', padding: '1rem', border: '1px solid #ccc' }}>
+      <h2>
+        Hello, <strong>{user?.name}</strong>
+      </h2>
+      {user && (
+        <div style={{ marginTop: '1rem', padding: '1rem',  }}>
           <h3>User Details</h3>
-          <p><strong>ID:</strong> {whoamiUser._id}</p>
-          <p><strong>Name:</strong> {whoamiUser.name || '(no name)'}</p>
-          <p><strong>Email:</strong> {whoamiUser.email}</p>
+          <p><strong>ID:</strong> {user._id}</p>
+          <p><strong>Name:</strong> {user.name || '(no name)'}</p>
+          <p><strong>Email:</strong> {user.email}</p>
         </div>
       )}
       <button onClick={handleLogout} className="secondary">

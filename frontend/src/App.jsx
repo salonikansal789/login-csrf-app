@@ -4,7 +4,6 @@ import Dashboard from './pages/Dashboard';
 
 function App() {
   const [user, setUser] = useState(null);
-console.log("user in app:", user);
   return (
     <div style={{ padding: '2rem' }}>
 
