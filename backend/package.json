@@ -8,6 +8,7 @@
     "start": "tsc && node dist/server.js"
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.9",
     "@types/csurf": "^1.11.5",
@@ -21,7 +22,7 @@
   },
   "dependencies": {
     "@types/cors": "^2.8.19",
-    "bcryptjs": "^3.0.2",
+    "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "csurf": "^1.11.0",

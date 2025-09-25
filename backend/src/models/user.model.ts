@@ -1,5 +1,4 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
-import bcrypt from "bcryptjs";
 import { IUserDocument } from "../interface/user.interface";
 
 
