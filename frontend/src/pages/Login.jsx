@@ -33,7 +33,6 @@ function Login({ setUser,setWhoamIError }) {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    debugger;
     if (!validate()) return; 
   try{
     const result = await login(email, password);
@@ -41,7 +40,6 @@ function Login({ setUser,setWhoamIError }) {
     if (result.success) {
       toast.success('Login successful and fetching user data...');
       const csrfToken= await getCsrfToken();
-      debugger;
       if(!csrfToken){
         toast.error('CSRF token not found. Please try again.');
         return;
